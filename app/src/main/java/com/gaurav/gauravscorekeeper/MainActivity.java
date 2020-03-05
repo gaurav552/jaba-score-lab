@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView scoreA;
     private TextView scoreB;
-    private RadioGroup rb = (RadioGroup) findViewById(R.id.setting);
+    private RadioGroup rb;
     private int rate = 1;
     private int a_sco = 0;
     private int b_sco = 0;
@@ -20,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         scoreA = (TextView) findViewById(R.id.team_a_sco);
         scoreB = (TextView) findViewById(R.id.team_b_sco);
-
+        rb = (RadioGroup) findViewById(R.id.setting);
 
         rb.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
