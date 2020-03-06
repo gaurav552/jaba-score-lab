@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <GridLayout
         android:layout_width="400sp"
         android:layout_height="wrap_content"
@@ -29,7 +28,6 @@
             android:layout_row="2"
             android:layout_column="0"
             android:layout_columnSpan="4"
-
             android:padding="15dp"
             android:text="0"
             android:textAlignment="textEnd"
@@ -63,7 +61,6 @@
             android:layout_column="3"
             android:onClick="Subtract"
             android:text="-" />
-
 
         <TextView
             android:id="@+id/e"
@@ -180,8 +177,5 @@
                 android:text="Three"
                 android:textAlignment="center" />
         </RadioGroup>
-
     </GridLayout>
-
-
 </RelativeLayout>
