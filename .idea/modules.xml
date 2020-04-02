@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Gaurav Score Keeper.iml" filepath="$PROJECT_DIR$/Gaurav Score Keeper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Gaurav Score Keeper.iml" filepath="$PROJECT_DIR$/Gaurav Score Keeper.iml" group="Gaurav Score Keeper" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Gaurav Score Keeper/app" />
     </modules>
   </component>
 </project>
