@@ -11,19 +11,28 @@ package com.gaurav.gauravscorekeeper;
 - He also hs made his program look much better using images, but I only did the bare minimum for looks
 */
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView scoreA;
-    private TextView scoreB;
+    private TextView scoreA, teama;
+    private TextView scoreB, teamb;
     private RadioGroup radbut;
-    private int rate = 1;
+
+    private int rate;
     private int a_sco = 0;
     private int b_sco = 0;
 
@@ -32,9 +41,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scoreA = (TextView) findViewById(R.id.team_a_sco);
-        scoreB = (TextView) findViewById(R.id.team_b_sco);
-        radbut = (RadioGroup) findViewById(R.id.setting);
+        SharedPreferences sett = PreferenceManager.getDefaultSharedPreferences(this);
+
+        final int def_rate = Integer.parseInt(sett.getString("inc_dec", "1"));
+
+        scoreA = findViewById(R.id.team_a_sco);
+        scoreB = findViewById(R.id.team_b_sco);
+        radbut = findViewById(R.id.setting);
+        teama = findViewById(R.id.team_a);
+        teamb = findViewById(R.id.team_b);
+
+        teama.setText(sett.getString("team_a_name", "Team A"));
+        teamb.setText(sett.getString("team_b_name", "Team B"));
+
+        if (def_rate == 1){
+            radbut.check(R.id.one);
+        } else if (def_rate == 2){
+            radbut.check(R.id.two);
+        } else {
+            radbut.check(R.id.three);
+        }
+
+        rate = def_rate;
 
         radbut.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -48,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.three: rate = 3;
                     break;
 
-                    default: rate = 1;
+                    default:
+                        rate = def_rate;
                     break;
                 }
             }
@@ -56,9 +85,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.Settings){
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else {
+            Toast.makeText(getBaseContext(),"Gaurav Raj Ghimire", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void display(){
-        scoreA.setText(Integer.toString(a_sco));
-        scoreB.setText(Integer.toString(b_sco));
+        scoreA.setText((a_sco));
+        scoreB.setText((b_sco));
     }
 
     public void Add(View v){
@@ -69,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.team_b_plu: b_sco = b_sco + rate;
             break;
 
-            default: a_sco = a_sco;
-            b_sco = b_sco;
+            default:
             break;
         }
         display();
@@ -84,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.team_b_min: b_sco = b_sco - rate;
                 break;
 
-            default: a_sco = a_sco;
-                b_sco = b_sco;
+            default:
                 break;
         }
         display();
