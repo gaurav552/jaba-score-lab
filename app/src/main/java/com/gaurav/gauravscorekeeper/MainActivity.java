@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sett = PreferenceManager.getDefaultSharedPreferences(this);
 
-        final int def_rate = Integer.parseInt(sett.getString("inc_dec", "1"));
+        final String def_rate = sett.getString("inc_dec", "1");
 
         scoreA = findViewById(R.id.team_a_sco);
         scoreB = findViewById(R.id.team_b_sco);
@@ -54,15 +54,15 @@ public class MainActivity extends AppCompatActivity {
         teama.setText(sett.getString("team_a_name", "Team A"));
         teamb.setText(sett.getString("team_b_name", "Team B"));
 
-        if (def_rate == 1){
+        rate = Integer.parseInt(def_rate);
+
+        if (rate == 1){
             radbut.check(R.id.one);
-        } else if (def_rate == 2){
+        } else if (rate == 2){
             radbut.check(R.id.two);
-        } else {
+        } else if (rate == 3){
             radbut.check(R.id.three);
         }
-
-        rate = def_rate;
 
         radbut.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                     default:
-                        rate = def_rate;
+                        rate = Integer.parseInt(def_rate);
                     break;
                 }
             }
@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void display(){
-        scoreA.setText((a_sco));
-        scoreB.setText((b_sco));
+        scoreA.setText(Integer.toString(a_sco));
+        scoreB.setText(Integer.toString(b_sco));
     }
 
     public void Add(View v){
