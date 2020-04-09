@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView scoreB, teamb;
     private RadioGroup radbut;
 
+    SharedPreferences setting;
+    boolean god_mode_check;
+
     private int rate;
     private int a_sco = 0;
     private int b_sco = 0;
@@ -41,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sett = PreferenceManager.getDefaultSharedPreferences(this);
-
-        final String def_rate = sett.getString("inc_dec", "1");
+        setting = PreferenceManager.getDefaultSharedPreferences(this);
 
         scoreA = findViewById(R.id.team_a_sco);
         scoreB = findViewById(R.id.team_b_sco);
@@ -51,10 +53,25 @@ public class MainActivity extends AppCompatActivity {
         teama = findViewById(R.id.team_a);
         teamb = findViewById(R.id.team_b);
 
-        teama.setText(sett.getString("team_a_name", "Team A"));
-        teamb.setText(sett.getString("team_b_name", "Team B"));
+        teama.setText(setting.getString("team_a_name", "Team A"));
+        teamb.setText(setting.getString("team_b_name", "Team B"));
 
-        rate = Integer.parseInt(def_rate);
+        god_mode_check = setting.getBoolean("god", false);
+
+        if (god_mode_check){
+            a_sco = setting.getInt("a_sco",0);
+            b_sco = setting.getInt("b_sco",0);
+            rate = setting.getInt("rate", 1);
+            display();
+        } else {
+            SharedPreferences.Editor edit = setting.edit();
+            edit.putInt("rate",Integer.parseInt(setting.getString("inc_dec","1")));
+            edit.putInt("a_sco",0);
+            edit.putInt("b_sco",0);
+            edit.apply();
+            rate = setting.getInt("rate", 1);
+        }
+
 
         if (rate == 1){
             radbut.check(R.id.one);
@@ -68,21 +85,34 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.one: rate = 1;
+                    rateSaver();
                     break;
 
                     case R.id.two: rate = 2;
+                    rateSaver();
                     break;
 
                     case R.id.three: rate = 3;
+                    rateSaver();
                     break;
 
                     default:
-                        rate = Integer.parseInt(def_rate);
+                        rate = Integer.parseInt(setting.getString("inc_dec", "1"));
+                        rateSaver();
                     break;
                 }
             }
 
         });
+
+    }
+
+    public void rateSaver(){
+        if (god_mode_check){
+            SharedPreferences.Editor edit = setting.edit();
+            edit.putInt("rate",rate);
+            edit.apply();
+        }
     }
 
     @Override
@@ -109,9 +139,11 @@ public class MainActivity extends AppCompatActivity {
     public void Add(View v){
         switch (v.getId()){
             case R.id.team_a_plu: a_sco = a_sco + rate;
+                scoreSaver("a",a_sco);
             break;
 
             case R.id.team_b_plu: b_sco = b_sco + rate;
+                scoreSaver("b",b_sco);
             break;
 
             default:
@@ -120,12 +152,27 @@ public class MainActivity extends AppCompatActivity {
         display();
     }
 
+    public void scoreSaver(String team, int val){
+
+        if (god_mode_check){
+            SharedPreferences.Editor edit = setting.edit();
+            if (team == "a"){
+                edit.putInt("a_sco",val);
+            } else {
+                edit.putInt("b_sco",val);
+            }
+            edit.apply();
+        }
+    }
+
     public void Subtract(View v){
         switch (v.getId()){
             case R.id.team_a_min: a_sco = a_sco - rate;
+                scoreSaver("a",a_sco);
                 break;
 
             case R.id.team_b_min: b_sco = b_sco - rate;
+                scoreSaver("b",b_sco);
                 break;
 
             default:

@@ -19,4 +19,9 @@
         app:title="Second Team Name"
         app:useSimpleSummaryProvider="true"/>
 
+    <CheckBoxPreference app:defaultValue="false"
+        app:key="god"
+        app:title="Save Everything"
+        android:summary="Default Increment Settings will not be applied when checked"/>
+
 </PreferenceScreen>
