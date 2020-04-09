@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        app:defaultValue="reply"
+        app:entries="@array/inc_dec"
+        app:entryValues="@array/inc_dec"
+        app:key="inc_dec"
+
+        app:title="Default Score Increment"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference app:defaultValue="Team A Score"
+        app:key="team_a_name"
+        app:title="First Team Name"
+        app:useSimpleSummaryProvider="true"/>
+
+    <EditTextPreference app:defaultValue="Team B Score"
+        app:key="team_b_name"
+        app:title="Second Team Name"
+        app:useSimpleSummaryProvider="true"/>
+
+</PreferenceScreen>
